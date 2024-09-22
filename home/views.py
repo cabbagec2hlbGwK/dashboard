@@ -247,7 +247,7 @@ def loginUser(request):
             messages.success(request, "Your data was saved successfully!")
             return redirect("home")
         else:
-            messages.error("invalid credintials")
-            return redirect(request, "login.html")
+            messages.error(request, "invalid credintials")
+            return redirect("login.html")
     else:
         return render(request, "login.html")
