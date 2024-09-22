@@ -13,7 +13,7 @@ def home(res):
     totalMessages = settings.DB_CONNECTION.getAllRequestsSum()
     totalApproved = settings.DB_CONNECTION.getApprovedRequestsSum()
     totalDeny = settings.DB_CONNECTION.getDeniedRequestsSum()
-    totalExpired = settings.DB_CONNECTION.getExpiredMessagesSum()
+    totalExpired = settings.DB_CONNECTION.getExpireddMessagesSum()
     totalActive = settings.DB_CONNECTION.getActiveMessagesSum()
     print(
         f"Message :{totalMessages}, Approved :{totalApproved}, Deny :{totalDeny}, Expired :{totalExpired}, Active :{totalActive}"
