@@ -297,7 +297,7 @@ class DcDatabase:
                 "approvalState": row[0],
                 "sender": row[1],
                 "reciver": row[2],
-                "user": row[3],
+                "user": json.loads(row[3]),
             }
             # Append each dictionary to the list
             records.append(record)
