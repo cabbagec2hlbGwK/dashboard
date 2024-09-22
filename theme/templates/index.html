@@ -289,12 +289,9 @@
           </ul>
         </div>
       </header>
-      <main class="h-full overflow-y-auto">
-        {% block content %}
-        <!-- Content from child templates will go here -->
-        {% endblock %}
-
-      </main>
+      {% block content %}
+      <!-- Content from child templates will go here -->
+      {% endblock %}
     </div>
   </div>
 </body>
