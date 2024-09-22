@@ -301,7 +301,6 @@ class DcDatabase:
             }
             # Append each dictionary to the list
             records.append(record)
-
         cursor.close()
         return records
 
@@ -335,6 +334,3 @@ def getConnection():
         dbTableName=tableN,
     )
     return db
-
-
-DB_CONNECTION = getConnection()

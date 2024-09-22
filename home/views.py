@@ -10,12 +10,13 @@ def userLogin(res):
 
 
 def home(res):
-    totalMessages = settings.DB_CONNECTION.getAllRequestsSum()
-    totalApproved = settings.DB_CONNECTION.getApprovedRequestsSum()
-    totalDeny = settings.DB_CONNECTION.getDeniedRequestsSum()
-    totalExpired = settings.DB_CONNECTION.getExpireddMessagesSum()
-    totalActive = settings.DB_CONNECTION.getActiveMessagesSum()
-    data = settings.DB_CONNECTION.getData()
+    DB_CONNECTION = settings.getConnection()
+    totalMessages = DB_CONNECTION.getAllRequestsSum()
+    totalApproved = DB_CONNECTION.getApprovedRequestsSum()
+    totalDeny = DB_CONNECTION.getDeniedRequestsSum()
+    totalExpired = DB_CONNECTION.getExpireddMessagesSum()
+    totalActive = DB_CONNECTION.getActiveMessagesSum()
+    data = DB_CONNECTION.getData()
     values = {
         "message": totalMessages,
         "approved": totalApproved,
@@ -24,6 +25,8 @@ def home(res):
         "active": totalActive,
         "data": data,
     }
+    DB_CONNECTION.close()
+    del DB_CONNECTION
     print(
         f"Message :{totalMessages}, Approved :{totalApproved}, Deny :{totalDeny}, Expired :{totalExpired}, Active :{totalActive}, data :{data}"
     )
