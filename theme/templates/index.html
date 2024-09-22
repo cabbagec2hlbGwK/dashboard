@@ -245,6 +245,19 @@
       {% endblock %}
     </div>
   </div>
+  <script>
+    document.getElementById("search-input").addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault(); // Prevent default form submission behavior
+
+        // Use the Django URL tag to generate the search URL
+        const searchUrl = "{% url 'search' %}?query=" + encodeURIComponent(this.value.trim());
+
+        // Perform the search action by redirecting to the search URL
+        window.location.href = searchUrl;
+      }
+    });
+  </script>
 </body>
 
 </html>
