@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import pymysql, os, json, boto3
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -135,3 +136,174 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+
+class DcDatabase:
+    def __init__(
+        self,
+        secret,
+        endpoint,
+        dbName,
+        firebaseConnector,
+        port=3306,
+        timeout=5,
+        dbTableName="approval_state_dev",
+    ):
+        self.endpoint = endpoint
+        self.secret = secret
+        self.dbName = dbName
+        self.port = port
+        self.timeout = timeout
+        self.tableName = dbTableName
+        self.firebaseConnector = firebaseConnector
+        try:
+            self.connection = self.DbConnect()
+        except OperationalError as e:
+            error_code = e.args[0]
+            if error_code == 1049:
+                print("the database was not found creating it and trying again")
+                if self.CreateDB(self.dbName):
+                    self.connection = self.DbConnect()
+            print(e)
+
+    def getAllRequestsSum(self):
+        cursor = self.connection.cursor()
+        cursor.execute(f"SELECT COUNT(*) FROM {self.tableName};")
+        total_sum = cursor.fetchone()[0]
+        cursor.close()
+        return {"totalRequests": total_sum}
+
+    def getApprovedRequestsSum(self):
+        cursor = self.connection.cursor()
+        cursor.execute(
+            f"SELECT COUNT(*) FROM {self.tableName} WHERE approvalState = 'approved';"
+        )
+        approved_sum = cursor.fetchone()[0]
+        cursor.close()
+        return {"approvedRequests": approved_sum}
+
+    def getDeniedRequestsSum(self):
+        cursor = self.connection.cursor()
+        cursor.execute(
+            f"SELECT COUNT(*) FROM {self.tableName} WHERE approvalState = 'denied';"
+        )
+        denied_sum = cursor.fetchone()[0]
+        cursor.close()
+        return {"deniedRequests": denied_sum}
+
+    def getRejectedMessagesSum(self):
+        cursor = self.connection.cursor()
+        cursor.execute(
+            f"SELECT COUNT(*) FROM {self.tableName} WHERE approvalState = 'rejected';"
+        )
+        rejected_sum = cursor.fetchone()[0]
+        cursor.close()
+        return {"rejectedMessages": rejected_sum}
+
+    def DbConnect(self):
+        connection = pymysql.connect(
+            host=self.endpoint,
+            user=self.secret["username"],
+            password=self.secret["password"],
+            db=self.dbName,
+            port=self.port,
+            connect_timeout=self.timeout,
+        )
+        print("Connection successful")
+        return connection
+
+    def CreateDB(self, dbName):
+        connection = pymysql.connect(
+            host=self.endpoint,
+            user=self.secret["username"],
+            password=self.secret["password"],
+            port=self.port,
+            connect_timeout=self.timeout,
+        )
+        print("Connection successful")
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(f"CREATE DATABASE {dbName}")
+                print(f"Database {dbName} created successfully.")
+                connection.commit()
+        except pymysql.MySQLError as e:
+            print(f"Failed to create database: {str(e)}")
+            connection.close()
+            return False
+        connection.close()
+        return True
+
+    def close(self):
+        self.connection.close()
+
+    def getActiveEmailApprovals(self, uid):
+        cursor = self.connection.cursor()
+        cursor.execute(
+            f"SELECT pii, messageId, sender, reciver, timeStamp FROM {self.tableName} WHERE approvalState = 'active' AND hasMessageBeenSent = false AND userUid = '{uid}';"
+        )
+        rows = cursor.fetchall()
+        print(f"The lenth of the table is {len(rows)}")
+        records = []
+        for row in rows:
+            pii = json.loads(row[0])
+            data = {
+                "piiType": pii.get("piiTypes", "null"),
+                "messageId": row[1],
+                "message": pii.get("message", "null"),
+                "expiryTime": add_30_minutes_to_unix(),
+                "piiSender": row[2],
+                "piiReciver": row[3],
+                "timeStamp": str(row[4]),
+            }
+            print(data)
+            records.append(data)
+        cursor.close()
+        return {"notifications": records}
+
+    def dbIfExist(self):
+        cursor = self.connection.cursor()
+        cursor.execute(f"SHOW DATABASES LIKE '{self.dbName}'")
+
+        result = cursor.fetchone()
+        if not result:
+            print(f"Database {self.dbName} does not exist. Creating database.")
+            cursor.execute(f"CREATE DATABASE {self.dbName}")
+            self.connection.commit()
+        else:
+            print(f"Database {self.dbName} already exists.")
+
+        cursor.close()
+
+
+def get_secret(secret_name):
+    # Create a Secrets Manager client
+    session = boto3.session.Session()
+    client = session.client(service_name="secretsmanager")
+
+    try:
+        print("trying value")
+        get_secret_value_response = client.get_secret_value(SecretId=secret_name)
+    except Exception as e:
+        print("ther was a error :" + str(e))
+
+    secret = get_secret_value_response["SecretString"]
+    print("the is " + str(secret_name))
+    return secret
+
+
+def getConnection():
+    secretName = os.getenv("secret_name")
+    rdsEndpoint = os.getenv("rds_endpoint")
+    tableN = os.getenv("tableName")
+    rdsSec = json.loads(get_secret(secretName))
+    db = DcDatabase(
+        secret=rdsSec,
+        endpoint=rdsEndpoint,
+        dbName="test1",
+        firebaseConnector=None,
+        dbTableName=tableN,
+    )
+    return db
+
+
+DB_CONNECTION = getConnection()
