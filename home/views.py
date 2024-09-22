@@ -239,6 +239,7 @@ def search(res):
 def loginUser(request):
     input(request.method)
     if request.method == "POST":
+        print("fuck this")
         username = request.POST["username"]
         password = request.POST["password"]
         user = authenticate(request, username=username, password=password)
