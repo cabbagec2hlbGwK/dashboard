@@ -25,7 +25,9 @@ SECRET_KEY = "django-insecure-u-az9i&%9zahmy=tya82lty0z-n+n&@_481%s!u#qc63)68!_-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "3.144.14.38",
+]
 
 NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 
@@ -38,12 +40,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    
-    #USER INSTALLED
+    # USER INSTALLED
     "tailwind",
     "theme",
     "home",
-    'django_browser_reload',
+    "django_browser_reload",
 ]
 
 MIDDLEWARE = [
@@ -128,7 +129,7 @@ STATIC_URL = "static/"
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
-TAILWIND_APP_NAME = 'theme'
+TAILWIND_APP_NAME = "theme"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 INTERNAL_IPS = [
