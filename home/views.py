@@ -237,7 +237,6 @@ def search(res):
 
 # Create your views here.
 def loginUser(request):
-    input(request.method)
     if request.method == "POST":
         print("fuck this")
         username = request.POST["username"]
@@ -245,8 +244,10 @@ def loginUser(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            messages.success(request, "Your data was saved successfully!")
             return redirect("home")
         else:
-            return render(request, "login.html", {"error": "Invalid credentials"})
+            messages.error("invalid credintials")
+            return redirect("login.html")
     else:
         return render(request, "login.html")
