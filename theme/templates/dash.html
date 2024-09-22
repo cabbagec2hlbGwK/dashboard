@@ -124,8 +124,20 @@
 								{{ item.sender }} --> {{ item.reciver }}
 							</td>
 							<td class="px-4 py-3 text-xs">
-								<span
-									class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+								<span class="
+		px-2 py-1 font-semibold leading-tight rounded-full
+		{% if item.approvalState == 'approved' %}
+			text-green-700 bg-green-100 dark:bg-green-700 dark:text-green-100
+		{% elif item.approvalState == 'denied' %}
+			text-red-700 bg-red-100 dark:text-red-100 dark:bg-red-700
+		{% elif item.approvalState == 'expired' %}
+			text-gray-700 bg-gray-100 dark:text-gray-100 dark:bg-gray-700
+		{% elif item.approvalState == 'active' %}
+			text-blue-700 bg-blue-100 dark:text-white dark:bg-blue-600
+		{% else %}
+			text-gray-500 bg-gray-200
+		{% endif %}
+	">
 									{{ item.approvalState }}
 								</span>
 							</td>
