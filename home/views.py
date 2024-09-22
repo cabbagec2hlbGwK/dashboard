@@ -246,7 +246,8 @@ def loginUser(request):
         if user is not None:
             login(request, user)
             # Redirect to a success page.
-            ...
         else:
+            pass
             # Return an 'invalid login' error message.
-            ...
+    else:
+        return render(request, "login.html")
