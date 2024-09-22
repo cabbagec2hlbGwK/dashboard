@@ -209,4 +209,8 @@ def home(res):
     return render(res, "dash.html", {"items": values})
 
 
+def search(res):
+    return HttpResponse("thi is the search field")
+
+
 # Create your views here.
