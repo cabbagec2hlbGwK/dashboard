@@ -191,10 +191,19 @@ class DcDatabase:
         cursor.close()
         return {"deniedRequests": denied_sum}
 
-    def getRejectedMessagesSum(self):
+    def getExpireddMessagesSum(self):
         cursor = self.connection.cursor()
         cursor.execute(
-            f"SELECT COUNT(*) FROM {self.tableName} WHERE approvalState = 'rejected';"
+            f"SELECT COUNT(*) FROM {self.tableName} WHERE approvalState = 'expired';"
+        )
+        rejected_sum = cursor.fetchone()[0]
+        cursor.close()
+        return {"rejectedMessages": rejected_sum}
+
+    def getActiveMessagesSum(self):
+        cursor = self.connection.cursor()
+        cursor.execute(
+            f"SELECT COUNT(*) FROM {self.tableName} WHERE approvalState = 'active';"
         )
         rejected_sum = cursor.fetchone()[0]
         cursor.close()
