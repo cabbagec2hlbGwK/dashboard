@@ -234,6 +234,7 @@ def home(res):
 def search(res):
     DB_CONNECTION = getConnection()
     string = res.GET.get("param_name")
+    print(string)
     data = DB_CONNECTION.searchData(string)
     values = {"data": data}
     DB_CONNECTION.close()
