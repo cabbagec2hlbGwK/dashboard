@@ -248,6 +248,6 @@ def loginUser(request):
             return redirect("home")
         else:
             messages.error("invalid credintials")
-            return redirect("login.html")
+            return redirect(request, "login.html")
     else:
         return render(request, "login.html")
