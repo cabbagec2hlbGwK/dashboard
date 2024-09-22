@@ -16,11 +16,18 @@ def home(res):
     totalExpired = settings.DB_CONNECTION.getExpireddMessagesSum()
     totalActive = settings.DB_CONNECTION.getActiveMessagesSum()
     data = settings.DB_CONNECTION.getData()
+    values = {
+        "message": totalMessages,
+        "approved": totalApproved,
+        "deny": totalDeny,
+        "expired": totalExpired,
+        "active": totalActive,
+        "data": data,
+    }
     print(
         f"Message :{totalMessages}, Approved :{totalApproved}, Deny :{totalDeny}, Expired :{totalExpired}, Active :{totalActive}, data :{data}"
     )
-    my_list = ["Item 1", "Item 2", "Item 3", "Item 4"]
-    return render(res, "index.html", {"items": my_list})
+    return render(res, "index.html", {"items": values})
 
 
 # Create your views here.
