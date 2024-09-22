@@ -129,7 +129,7 @@ class DcDatabase:
 
     def getData(self):
         cursor = self.connection.cursor()
-        query = f"SELECT approvalState, sender, reciver, user FROM {self.tableName} ORDER BY timeStamp DESC LIMIT 50;"
+        query = f"SELECT approvalState, sender, reciver, user, timeStamp FROM {self.tableName} ORDER BY timeStamp DESC LIMIT 50;"
         cursor.execute(query)
 
         rows = cursor.fetchall()
@@ -142,6 +142,7 @@ class DcDatabase:
                 "sender": row[1],
                 "reciver": row[2],
                 "user": json.loads(row[3]),
+                "timeStamp": row[4],
             }
             # Append each dictionary to the list
             records.append(record)
