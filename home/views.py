@@ -27,7 +27,7 @@ def home(res):
     print(
         f"Message :{totalMessages}, Approved :{totalApproved}, Deny :{totalDeny}, Expired :{totalExpired}, Active :{totalActive}, data :{data}"
     )
-    return render(res, "index.html", {"items": values})
+    return render(res, "dash.html", {"items": values})
 
 
 # Create your views here.
