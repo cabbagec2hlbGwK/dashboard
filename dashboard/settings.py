@@ -171,7 +171,7 @@ class DcDatabase:
         cursor.execute(f"SELECT COUNT(*) FROM {self.tableName};")
         total_sum = cursor.fetchone()[0]
         cursor.close()
-        return {"totalRequests": total_sum}
+        return total_sum
 
     def getApprovedRequestsSum(self):
         cursor = self.connection.cursor()
@@ -180,7 +180,7 @@ class DcDatabase:
         )
         approved_sum = cursor.fetchone()[0]
         cursor.close()
-        return {"approvedRequests": approved_sum}
+        return approved_sum
 
     def getDeniedRequestsSum(self):
         cursor = self.connection.cursor()
@@ -189,7 +189,7 @@ class DcDatabase:
         )
         denied_sum = cursor.fetchone()[0]
         cursor.close()
-        return {"deniedRequests": denied_sum}
+        return denied_sum
 
     def getExpireddMessagesSum(self):
         cursor = self.connection.cursor()
@@ -198,7 +198,7 @@ class DcDatabase:
         )
         rejected_sum = cursor.fetchone()[0]
         cursor.close()
-        return {"rejectedMessages": rejected_sum}
+        return rejected_sum
 
     def getActiveMessagesSum(self):
         cursor = self.connection.cursor()
@@ -207,7 +207,7 @@ class DcDatabase:
         )
         rejected_sum = cursor.fetchone()[0]
         cursor.close()
-        return {"rejectedMessages": rejected_sum}
+        return rejected_sum
 
     def DbConnect(self):
         connection = pymysql.connect(
@@ -282,6 +282,28 @@ class DcDatabase:
             print(f"Database {self.dbName} already exists.")
 
         cursor.close()
+
+    def getData(self):
+        cursor = self.connection.cursor()
+        query = f"SELECT approvalState, sender, reciver, user FROM {self.tableName} ORDER BY timeStamp DESC LIMIT 50;"
+        cursor.execute(query)
+
+        rows = cursor.fetchall()
+        records = []
+
+        for row in rows:
+            # Create a dictionary with the required fields
+            record = {
+                "approvalState": row[0],
+                "sender": row[1],
+                "reciver": row[2],
+                "user": row[3],
+            }
+            # Append each dictionary to the list
+            records.append(record)
+
+        cursor.close()
+        return records
 
 
 def get_secret(secret_name):
