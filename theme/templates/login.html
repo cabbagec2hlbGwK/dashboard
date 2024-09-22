@@ -28,6 +28,7 @@
               Login
             </h1>
             <form action="/login" method="POST">
+              {% csrf_token %}
 
               <label class="block text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Email</span>
@@ -51,6 +52,13 @@
             </form>
 
             <hr class="my-8" />
+            {% if messages %}
+            <ul>
+              {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
 
 
           </div>
