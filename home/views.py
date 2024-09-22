@@ -127,6 +127,28 @@ class DcDatabase:
 
         cursor.close()
 
+    def searchData(self, string):
+        cursor = self.connection.cursor()
+        query = f"SELECT approvalState, sender, reciver, user, timeStamp FROM {self.tableName} WHERE sender LIKE '%{string}%' OR reciver LIKE '%{string}%' OR user LIKE '%{string}%';"
+        cursor.execute(query)
+
+        rows = cursor.fetchall()
+        records = []
+
+        for row in rows:
+            # Create a dictionary with the required fields
+            record = {
+                "approvalState": row[0],
+                "sender": row[1],
+                "reciver": row[2],
+                "user": json.loads(row[3]),
+                "timeStamp": row[4],
+            }
+            # Append each dictionary to the list
+            records.append(record)
+        cursor.close()
+        return records
+
     def getData(self):
         cursor = self.connection.cursor()
         query = f"SELECT approvalState, sender, reciver, user, timeStamp FROM {self.tableName} ORDER BY timeStamp DESC LIMIT 50;"
@@ -210,7 +232,12 @@ def home(res):
 
 
 def search(res):
-    return HttpResponse("thi is the search field")
+    DB_CONNECTION = getConnection()
+    data = DB_CONNECTION.getData()
+    values = {"data": data}
+    DB_CONNECTION.close()
+    del DB_CONNECTION
+    return render(res, "results.html", {"items": values})
 
 
 # Create your views here.
