@@ -203,10 +203,6 @@ def getConnection():
     return db
 
 
-def userLogin(res):
-    return render(res, "login.html", {})
-
-
 def home(res):
     DB_CONNECTION = getConnection()
     totalMessages = DB_CONNECTION.getAllRequestsSum()
@@ -225,9 +221,6 @@ def home(res):
     }
     DB_CONNECTION.close()
     del DB_CONNECTION
-    print(
-        f"Message :{totalMessages}, Approved :{totalApproved}, Deny :{totalDeny}, Expired :{totalExpired}, Active :{totalActive}, data :{data}"
-    )
     return render(res, "dash.html", {"items": values})
 
 
@@ -243,3 +236,14 @@ def search(res):
 
 
 # Create your views here.
+def loginUser(request):
+    username = request.POST["username"]
+    password = request.POST["password"]
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        # Redirect to a success page.
+        ...
+    else:
+        # Return an 'invalid login' error message.
+        ...
