@@ -56,9 +56,9 @@
             {% for message in messages %}
             <div>
               <div
-                class="min-w-0 p-4 text-white {% if 'success' in message.tags %}bg-green-600{% elif 'error' in message.tags %}bg-red-600{% endif %} rounded-lg shadow-xs">
+                class="min-w-0 p-4 text-white {% if 'success' in message.tags %}bg-purple-600{% elif 'error' in message.tags %}bg-red-600{% endif %} rounded-lg shadow-xs">
                 <h4 class="mb-4 font-semibold">
-                  {{ message.tags }}
+                  Message
                 </h4>
                 <p>
                   {{ message }}

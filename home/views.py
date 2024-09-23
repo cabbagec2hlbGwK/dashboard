@@ -256,10 +256,9 @@ def loginUser(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request, "Your data was saved successfully!")
             return redirect("home")
         else:
             messages.error(request, "invalid credintials")
             return redirect("login")
     else:
-        return render(request, "login.html")
+        return render(request, "login.html", {})
