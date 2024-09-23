@@ -23,7 +23,7 @@
             src="{% static 'img/login-office-dark.jpeg' %}" alt="Office" />
         </div>
         <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
-          <div class="w-full">
+          < class="w-full">
             <h1 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">
               Login
             </h1>
@@ -54,16 +54,32 @@
             <hr class="my-8" />
             {% if messages %}
             {% for message in messages %}
-            <div class="min-w-0 p-4 text-white bg-purple-600 rounded-lg shadow-xs"></div>
-            <h4 class="mb-4 font-semibold">
-              Error
-            </h4>
-            <p>
-              {{ message }}
-            </p>
-          </div>
-          {% endfor %}
-          {% endif %}
+            <div class="grid gap-6 mb-8 md:grid-cols-2">
+              <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                <h4 class="mb-4 font-semibold text-gray-600 dark:text-gray-300">
+                  Revenue
+                </h4>
+                <p class="text-gray-600 dark:text-gray-400">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Fuga, cum commodi a omnis numquam quod? Totam exercitationem
+                  quos hic ipsam at qui cum numquam, sed amet ratione! Ratione,
+                  nihil dolorum.
+                </p>
+              </div>
+              <div class="min-w-0 p-4 text-white bg-purple-600 rounded-lg shadow-xs">
+                <h4 class="mb-4 font-semibold">
+                  Colored card
+                </h4>
+                <p>
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Fuga, cum commodi a omnis numquam quod? Totam exercitationem
+                  quos hic ipsam at qui cum numquam, sed amet ratione! Ratione,
+                  nihil dolorum.
+                </p>
+              </div>
+            </div>
+            {% endfor %}
+            {% endif %}
 
 
         </div>
