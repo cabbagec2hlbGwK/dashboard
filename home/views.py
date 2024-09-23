@@ -241,6 +241,11 @@ def search(res):
     return render(res, "results.html", {"items": values})
 
 
+def logoutUser(res):
+    logout(res)
+    return redirect("login")
+
+
 # Create your views here.
 def loginUser(request):
     if request.method == "POST":
