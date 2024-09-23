@@ -53,18 +53,23 @@
 
             <hr class="my-8" />
             {% if messages %}
-            <ul>
-              {% for message in messages %}
-              <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-
-
+            {% for message in messages %}
+            <div class="min-w-0 p-4 text-white bg-purple-600 rounded-lg shadow-xs"></div>
+            <h4 class="mb-4 font-semibold">
+              Error
+            </h4>
+            <p>
+              {{ message }}
+            </p>
           </div>
+          {% endfor %}
+          {% endif %}
+
+
         </div>
       </div>
     </div>
+  </div>
   </div>
 </body>
 
