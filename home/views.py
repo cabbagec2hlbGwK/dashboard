@@ -204,6 +204,9 @@ def getConnection():
 
 
 def home(res):
+    if not res.user.is_authenticated:
+        messages.error(res, "Access denied please login in again")
+        return redirect("login")
     DB_CONNECTION = getConnection()
     totalMessages = DB_CONNECTION.getAllRequestsSum()
     totalApproved = DB_CONNECTION.getApprovedRequestsSum()
@@ -225,6 +228,9 @@ def home(res):
 
 
 def search(res):
+    if not res.user.is_authenticated:
+        messages.error(res, "Access denied please login in again")
+        return redirect("login")
     DB_CONNECTION = getConnection()
     string = res.GET.get("search")
     print(string)
