@@ -243,6 +243,7 @@ def search(res):
 
 def logoutUser(res):
     logout(res)
+    messages.success(res, "Sucessfully logout")
     return redirect("login")
 
 
