@@ -156,7 +156,7 @@ class DcDatabase:
         else:
             clause = ""
         cursor = self.connection.cursor()
-        query = f"SELECT approvalState, sender, reciver, user, timeStamp, messageId FROM {self.tableName} {clause} ORDER BY timeStamp DESC LIMIT 50;"
+        query = f"SELECT approvalState, sender, reciver, user, timeStamp, messageId, approvalState, pii FROM {self.tableName} {clause} ORDER BY timeStamp DESC LIMIT 50;"
         cursor.execute(query)
 
         rows = cursor.fetchall()
@@ -171,6 +171,8 @@ class DcDatabase:
                 "user": json.loads(row[3]),
                 "timeStamp": row[4],
                 "messageId": row[5],
+                "state": row[6],
+                "pii": row[7],
             }
             # Append each dictionary to the list
             records.append(record)
