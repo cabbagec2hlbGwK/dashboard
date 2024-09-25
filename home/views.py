@@ -279,4 +279,4 @@ def getMessage(res):
     values = {"data": data}
     DB_CONNECTION.close()
     del DB_CONNECTION
-    return render(res, "message.html", {})
+    return render(res, "message.html", {"items": values})
