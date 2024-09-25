@@ -129,7 +129,7 @@ class DcDatabase:
 
     def searchData(self, string):
         cursor = self.connection.cursor()
-        query = f"SELECT approvalState, sender, reciver, user, timeStamp FROM {self.tableName} WHERE sender LIKE '%{string}%' OR reciver LIKE '%{string}%' OR user LIKE '%{string}%';"
+        query = f"SELECT approvalState, sender, reciver, user, timeStamp, messageId FROM {self.tableName} WHERE sender LIKE '%{string}%' OR reciver LIKE '%{string}%' OR user LIKE '%{string}%';"
         cursor.execute(query)
 
         rows = cursor.fetchall()
@@ -143,15 +143,20 @@ class DcDatabase:
                 "reciver": row[2],
                 "user": json.loads(row[3]),
                 "timeStamp": row[4],
+                "messageId": row[5],
             }
             # Append each dictionary to the list
             records.append(record)
         cursor.close()
         return records
 
-    def getData(self):
+    def getData(self, messageId=""):
+        if messageId != "":
+            clause = f"WHERE messageId = '{messageId}'"
+        else:
+            clause = ""
         cursor = self.connection.cursor()
-        query = f"SELECT approvalState, sender, reciver, user, timeStamp FROM {self.tableName} ORDER BY timeStamp DESC LIMIT 50;"
+        query = f"SELECT approvalState, sender, reciver, user, timeStamp, messageId FROM {self.tableName} {clause} ORDER BY timeStamp DESC LIMIT 50;"
         cursor.execute(query)
 
         rows = cursor.fetchall()
@@ -165,6 +170,7 @@ class DcDatabase:
                 "reciver": row[2],
                 "user": json.loads(row[3]),
                 "timeStamp": row[4],
+                "messageId": row[5],
             }
             # Append each dictionary to the list
             records.append(record)
@@ -250,7 +256,6 @@ def logoutUser(res):
 # Create your views here.
 def loginUser(request):
     if request.method == "POST":
-        print("fuck this")
         username = request.POST["username"]
         password = request.POST["password"]
         user = authenticate(request, username=username, password=password)
@@ -262,3 +267,16 @@ def loginUser(request):
             return redirect("login")
     else:
         return render(request, "login.html", {})
+
+
+def getMessage(res):
+    if not res.user.is_authenticated:
+        messages.error(res, "Access denied please login in again")
+        return redirect("login")
+    DB_CONNECTION = getConnection()
+    messageId = res.GET.get("messageId")
+    data = DB_CONNECTION.getData(messageId=messageId)
+    values = {"data": data}
+    DB_CONNECTION.close()
+    del DB_CONNECTION
+    return render(res, "message.html", {})
