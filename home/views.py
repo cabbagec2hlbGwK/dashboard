@@ -172,7 +172,7 @@ class DcDatabase:
                 "timeStamp": row[4],
                 "messageId": row[5],
                 "state": row[6],
-                "pii": row[7],
+                "pii": json.loads(row[7]),
             }
             # Append each dictionary to the list
             records.append(record)
