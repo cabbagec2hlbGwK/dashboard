@@ -5,24 +5,13 @@
 
 <main class="h-full overflow-y-auto">
 	<div class="container px-6 mx-auto grid">
-		<h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-			Details
-		</h2>
-
 		{% for item in items.data %}
+		<h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+			Message ID :{{ item.messageId }}
+		</h2>
 		<div>
 			<div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-2">
 				<!-- Card -->
-				<div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-					<div>
-						<p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-							Message ID
-						</p>
-						<p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-							{{ item.messageId }}
-						</p>
-					</div>
-				</div>
 				<div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
 					<div>
 						<p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
