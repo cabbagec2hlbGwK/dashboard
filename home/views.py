@@ -129,7 +129,7 @@ class DcDatabase:
 
     def searchData(self, string):
         cursor = self.connection.cursor()
-        query = f"SELECT approvalState, sender, reciver, user, timeStamp, messageId FROM {self.tableName} WHERE sender LIKE '%{string}%' OR reciver LIKE '%{string}%' OR user LIKE '%{string}%';"
+        query = f"SELECT approvalState, sender, reciver, user, timeStamp, messageId, approvalTime FROM {self.tableName} WHERE sender LIKE '%{string}%' OR reciver LIKE '%{string}%' OR user LIKE '%{string}%';"
         cursor.execute(query)
 
         rows = cursor.fetchall()
@@ -144,6 +144,7 @@ class DcDatabase:
                 "user": json.loads(row[3]),
                 "timeStamp": row[4],
                 "messageId": row[5],
+                "approvalTime": row[6],
             }
             # Append each dictionary to the list
             records.append(record)
@@ -156,7 +157,7 @@ class DcDatabase:
         else:
             clause = ""
         cursor = self.connection.cursor()
-        query = f"SELECT approvalState, sender, reciver, user, timeStamp, messageId, approvalState, pii FROM {self.tableName} {clause} ORDER BY timeStamp DESC LIMIT 50;"
+        query = f"SELECT approvalState, sender, reciver, user, timeStamp, messageId, approvalState, pii, approvalTime FROM {self.tableName} {clause} ORDER BY timeStamp DESC LIMIT 50;"
         cursor.execute(query)
 
         rows = cursor.fetchall()
@@ -173,6 +174,7 @@ class DcDatabase:
                 "messageId": row[5],
                 "state": row[6],
                 "pii": json.loads(row[7]),
+                "approvalTime": row[8],
             }
             # Append each dictionary to the list
             records.append(record)
