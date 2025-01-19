@@ -132,13 +132,13 @@ USE_TZ = True
 STATIC_URL = "theme/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
 
-SESSION_COOKIES_SECURE= True
-CSRF_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
+#SESSION_COOKIES_SECURE= True
+#CSRF_COOKIE_SECURE = True
+#SECURE_SSL_REDIRECT = True
 
-SECURE_HSTS_SECONDS = 31536000  # Set this to the number of seconds you want HSTS to last. Recommended is 1 year (31536000 seconds).
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to all subdomains.
-SECURE_HSTS_PRELOAD = True  # Allow your site to be included in browser
+#SECURE_HSTS_SECONDS = 31536000  # Set this to the number of seconds you want HSTS to last. Recommended is 1 year (31536000 seconds).
+##SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to all subdomains.
+#SECURE_HSTS_PRELOAD = True  # Allow your site to be included in browser
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
