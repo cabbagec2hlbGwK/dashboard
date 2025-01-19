@@ -4,3 +4,4 @@ django-tailwind[reload]
 pymysql
 boto3
 python-dotenv
+uwsgi
