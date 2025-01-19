@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +22,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-u-az9i&%9zahmy=tya82lty0z-n+n&@_481%s!u#qc63)68!_-"
+with open(os.path.join(BASE_DIR, "secret_key")) as f:
+    SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+
 
 ALLOWED_HOSTS = [
     "3.144.14.38",
+    "ec2-3-231-153-32.compute-1.amazonaws.com"
 ]
 
 NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
@@ -124,7 +129,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "theme/static"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+SESSION_COOKIES_SECURE= True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+
+SECURE_HSTS_SECONDS = 31536000  # Set this to the number of seconds you want HSTS to last. Recommended is 1 year (31536000 seconds).
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to all subdomains.
+SECURE_HSTS_PRELOAD = True  # Allow your site to be included in browser
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
