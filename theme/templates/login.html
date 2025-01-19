@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="{% static 'css/dist/tailwind.output.css' %}" />
+  <link rel="stylesheet" href="{% static 'theme/css/dist/tailwind.output.css' %}" />
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
   <script src="{% static 'js/init-alpine.js' %}"></script>
 </head>
@@ -18,7 +18,7 @@
       <div class="flex flex-col overflow-y-auto md:flex-row">
         <div class="h-32 md:h-auto md:w-1/2">
           <img aria-hidden="true" class="object-cover w-full h-full dark:hidden"
-            src="{% static 'img/login-office.jpeg' %}" alt="Office" />
+            src="{% static 'theme/img/login-office.jpeg' %}" alt="Office" />
           <img aria-hidden="true" class="hidden object-cover w-full h-full dark:block"
             src="{% static 'img/login-office-dark.jpeg' %}" alt="Office" />
         </div>
