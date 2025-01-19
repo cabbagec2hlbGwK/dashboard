@@ -34,7 +34,7 @@ ALLOWED_HOSTS = [
     "ec2-3-231-153-32.compute-1.amazonaws.com"
 ]
 
-NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+NPM_BIN_PATH = r"/home/ubuntu/.nvm/versions/node/v22.13.0/bin/npm"
 
 # Application definition
 
@@ -130,7 +130,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 #SESSION_COOKIES_SECURE= True
 #CSRF_COOKIE_SECURE = True
