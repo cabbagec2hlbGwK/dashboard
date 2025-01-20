@@ -37,8 +37,7 @@ DEBUG = False
 
 
 ALLOWED_HOSTS = [
-    "3.144.14.38",
-    "ec2-44-204-165-94.compute-1.amazonaws.com"
+    "ec2-100-27-237-223.compute-1.amazonaws.com"
 ]
 
 NPM_BIN_PATH = r"/home/ubuntu/.nvm/versions/node/v22.13.0/bin/npm"
