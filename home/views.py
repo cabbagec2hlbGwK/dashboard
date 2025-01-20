@@ -201,12 +201,13 @@ def get_secret(secret_name):
 def getConnection():
     secretName = os.getenv("secret_name")
     rdsEndpoint = os.getenv("rds_endpoint")
+    database = os.getenv("DATABASENAME")
     tableN = os.getenv("tableName")
     rdsSec = json.loads(get_secret(secretName))
     db = DcDatabase(
         secret=rdsSec,
         endpoint=rdsEndpoint,
-        dbName="test1",
+        dbName=database,
         firebaseConnector=None,
         dbTableName=tableN,
     )
