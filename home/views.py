@@ -233,6 +233,7 @@ def home(res):
         "active": totalActive,
         "data": data,
     }
+    print(values)
     DB_CONNECTION.close()
     del DB_CONNECTION
     return render(res, "dash.html", {"items": values})
